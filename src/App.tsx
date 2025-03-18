@@ -35,7 +35,11 @@ export const initialTodos: Todo[] = todosFromServer.map((todo: Todo) => ({
 }));
 
 function getNewTodoId(todos: Todo[]) {
-  return Math.max(...todos.map(todo => todo.id), 0) + 1;
+  if (todos.length === 0) {
+    return 1;
+  }
+
+  return Math.max(0, ...todos.map(todo => todo.id)) + 1;
 }
 
 const TodoForm: React.FC<NewTodoProps> = ({ onAdd, todoList }) => {
@@ -55,7 +59,7 @@ const TodoForm: React.FC<NewTodoProps> = ({ onAdd, todoList }) => {
       return;
     }
 
-    const newId = getNewTodoId(todoList);
+    const newId = getNewTodoId([...todoList]);
     const newTodo: Todo = {
       id: newId,
       title,
@@ -124,7 +128,11 @@ export const App: React.FC = () => {
   const [todoList, setTodoList] = useState<Todo[]>(initialTodos);
 
   const handleAddTodo = (newTodo: Todo) => {
-    setTodoList(prevTodos => [...prevTodos, newTodo]);
+    setTodoList(prevTodos => {
+      const newId = getNewTodoId(prevTodos);
+
+      return [...prevTodos, { ...newTodo, id: newId }];
+    });
   };
 
   return (
