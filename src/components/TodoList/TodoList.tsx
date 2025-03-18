@@ -8,8 +8,8 @@ interface TodoListProps {
 
 export const TodoList: React.FC<TodoListProps> = ({ todos }) => (
   <section className="TodoList">
-    {todos.map(todo => (
-      <TodoInfo todo={todo} key={todo.id} />
+    {todos.map((todo, index) => (
+      <TodoInfo todo={todo} key={todo.id || index} />
     ))}
   </section>
 );

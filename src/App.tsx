@@ -59,7 +59,7 @@ const TodoForm: React.FC<NewTodoProps> = ({ onAdd, todoList }) => {
       return;
     }
 
-    const newId = getNewTodoId([...todoList]);
+    const newId = getNewTodoId(todoList);
     const newTodo: Todo = {
       id: newId,
       title,
@@ -129,9 +129,7 @@ export const App: React.FC = () => {
 
   const handleAddTodo = (newTodo: Todo) => {
     setTodoList(prevTodos => {
-      const newId = getNewTodoId(prevTodos);
-
-      return [...prevTodos, { ...newTodo, id: newId }];
+      return [...prevTodos, newTodo];
     });
   };
 
